@@ -31,10 +31,11 @@
 <p>Planetlings is a single-player game: you paint a small planet in matches against a computer-controlled opponent.
 There is no account, no chat and no online multiplayer. The game is free. It shows ads from Google AdMob, you can make
 optional purchases through Google Play, and it sends gameplay statistics to Google Analytics for Firebase, so the
-developer can see how the game is played and improve it. The developer runs no servers for Planetlings and never
+developer can see how the game is played and improve it. After a ranked match, the game uploads a recording of your moves,
+so other players can play against it as a clearly marked replay; you can turn this off in the settings. The developer runs no servers for Planetlings and never
 receives your name, e-mail address or anything else that identifies you. The only data that leaves your phone through
-the game goes to Google, for ads, the consent choice that goes with them, purchases and gameplay statistics, as described
-below. Where the law requires your consent (for example in the European Economic Area and the United Kingdom), no ads are
+the game goes to Google, for ads, the consent choice that goes with them, purchases, gameplay statistics and replays, as
+described below. Where the law requires your consent (for example in the European Economic Area and the United Kingdom), no ads are
 requested and no statistics are collected until you agree.</p>
 
 <h2>What the game stores on your device</h2>
@@ -77,7 +78,7 @@ planet you painted):</p>
 <ul>
   <li><strong>Tutorial:</strong> when it starts, and when it is finished or skipped, with how far you got.</li>
   <li><strong>Matches:</strong> when a ranked match starts and how it ended (win, loss, draw, quit, or left by closing
-      the game), your league, the share of the planet you painted as a range, the trophies won or lost, your win streak
+      the game), whether the opponent was a replay or the computer, your league, the share of the planet you painted as a range, the trophies won or lost, your win streak
       and the number of matches you have played as ranges. Also when you reach a new league or unlock a card.</li>
   <li><strong>Daily rewards and the shop:</strong> login rewards and chests opened, daily quests claimed, when the shop
       or its coins page is opened and from where, and which item you bought with coins and its coin price.</li>
@@ -98,6 +99,31 @@ Google says it encrypts the data in transit and passes it to no third parties ex
 service. More information: <a href="https://firebase.google.com/support/privacy">Privacy and Security in Firebase</a>
 and <a href="https://firebase.google.com/docs/android/play-data-disclosure">Firebase's Google Play data
 disclosure</a>.</p>
+
+<h2>Replays: recorded matches (Firebase Authentication and Cloud Firestore)</h2>
+<p>Ranked matches can be played against <strong>replays</strong>: recordings of real players' earlier matches. A replay is
+always marked REPLAY and is never presented as someone playing live. The game stores replays in Cloud Firestore, a
+database service from Google's Firebase, in Europe, and signs in to it with Firebase Authentication using an anonymous
+account: a random ID that Firebase creates for this installation of the game. There is no name, e-mail address or
+password.</p>
+<ul>
+  <li><strong>What is uploaded</strong> after each ranked match you finish (not one you quit or leave): the random ID,
+      the cards you started with, every card you played with its time and its spot on the planet, your league and
+      trophies at the start, the avatar you wore, the result and the share of the planet you painted. Firebase also
+      keeps the time of your last upload, so a player can upload at most once a minute.</li>
+  <li><strong>What other players see:</strong> your moves replayed by the game, your avatar, and a name the game makes
+      up from the random ID (for example "Brave Comet"). Nothing you typed is shown, because the game never asks you
+      to type anything.</li>
+  <li><strong>How long:</strong> replays are kept for 30 days and then deleted; the game deletes expired replays as it
+      comes across them. Firebase deletes anonymous accounts after 30 days, and the game then makes a new random ID.</li>
+  <li><strong>Your choice:</strong> turn off <em>SHARE REPLAYS</em> in the game's settings, and the game uploads no
+      more replays and deletes the ones this phone uploaded. Replays are part of how the game is played, so they don't
+      depend on the ads consent form. Even with SHARE REPLAYS off, the game signs in with the random ID to download
+      other players' replays; Google processes your IP address to answer those requests.</li>
+  <li><strong>Google's role:</strong> Google runs Firebase for the developer and processes this data under the
+      <a href="https://firebase.google.com/terms/data-processing-terms">Firebase data processing terms</a>; see
+      <a href="https://firebase.google.com/support/privacy">Privacy and Security in Firebase</a>.</li>
+</ul>
 
 <h2>Your choices about ads and statistics</h2>
 <ul>
@@ -126,13 +152,14 @@ and coins only. Google handles purchase information under the
 <h2>Information the developer collects</h2>
 <p>Nothing that identifies you. Planetlings has no sign-in and does not ask for your name, e-mail address, contacts,
 location, photos, files, camera or microphone. What the developer sees are the gameplay statistics described above, as
-reports in Google Analytics; they are tied only to the random app instance ID, never to your name or e-mail address. The
-game has no crash-reporting service, and the developer has no server that receives data from it.</p>
+reports in Google Analytics, and the replays described above, in the game's Firebase project; they are tied only to random
+IDs, never to your name or e-mail address. The game has no crash-reporting service, and the developer runs no server of its
+own that receives data from it.</p>
 
 <h2>Permissions</h2>
 <ul>
   <li><strong>Internet, network state and Wi-Fi state:</strong> used for ads, the consent form, purchases, gameplay
-      statistics and Google Play's licence check. Matches themselves are played on your phone and work offline.</li>
+      statistics, replays and Google Play's licence check. Matches themselves are played on your phone and work offline.</li>
   <li><strong>Google Play Billing (<code>com.android.vending.BILLING</code>):</strong> shows prices and completes
       purchases with Google Play.</li>
   <li><strong>Google Play licence check (<code>com.android.vending.CHECK_LICENSE</code>):</strong> lets Google Play
@@ -159,6 +186,8 @@ game has no crash-reporting service, and the developer has no server that receiv
   <li><strong>Gameplay statistics</strong> are held by Google for the developer's Analytics account and deleted
       automatically after 14 months. They are tied only to the game's app instance ID; clearing the game's data or
       reinstalling it starts a new one.</li>
+  <li><strong>Replays</strong> this phone uploaded are deleted when you turn off SHARE REPLAYS in the game's settings,
+      and in any case after 30 days. To have them deleted otherwise, write to the address below.</li>
   <li><strong>Purchase records</strong> are held by Google Play.</li>
 </ul>
 <p>Questions about any of this: <a href="mailto:info@devcode.cloud">info@devcode.cloud</a>.</p>
@@ -170,8 +199,9 @@ about it, write to <a href="mailto:info@devcode.cloud">info@devcode.cloud</a>.</
 
 <h2>Changes</h2>
 <p>If a future version adds crash reports, sign-in, cloud saves or anything else that changes what is described here, or
-changes how ads or statistics work, this policy will be updated before that version is released and the effective date
-above will change. The November 23, 2026 version added the gameplay statistics (Google Analytics for Firebase).</p>
+changes how ads, statistics or replays work, this policy will be updated before that version is released and the effective date
+above will change. The November 23, 2026 versions added the gameplay statistics (Google Analytics for Firebase) and replays (Firebase
+Authentication and Cloud Firestore).</p>
 
 <h2>Contact</h2>
 <p>Questions about this policy: <a href="mailto:info@devcode.cloud">info@devcode.cloud</a></p>
