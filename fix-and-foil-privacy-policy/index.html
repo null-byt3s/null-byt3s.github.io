@@ -72,13 +72,16 @@ Google processes it for the developer.</p>
 <p>The game sends only fixed names, the names of game items and coarse ranges:</p>
 <ul>
   <li><strong>The first-time guide:</strong> how far you got.</li>
-  <li><strong>Your shop:</strong> each shop level reached and the play time it took (as a range); at the end of each shop
-      day, the day number, the takings as a range and how many things and cards were sold.</li>
+  <li><strong>Your shop:</strong> each shop level reached, with the day and the minutes played; at the end of each shop
+      day, the day number, the takings as a range, how many things and cards were sold, your level and the minutes
+      played.</li>
   <li><strong>What you do in the shop:</strong> stock ordered (which lot), things restored (their kind and grade),
       machines repaired, card packs opened and upgrades bought.</li>
   <li><strong>Ads:</strong> which rewarded ad you chose to watch and how it ended, and when the ad after closing is
       shown.</li>
   <li><strong>Purchases:</strong> when the CASH &amp; EXTRAS screen is opened, and which product you bought.</li>
+  <li><strong>Properties attached to the statistics:</strong> your shop level, and whether the game is a test build or the
+      released one.</li>
 </ul>
 <p>Google's Analytics software also collects some data automatically. According to Google's published data disclosure
 for it, this includes: an app instance ID (a random ID Google generates for each installation of the game, used to count
@@ -114,8 +117,9 @@ passes it to no third parties except subprocessors that help provide the service
 <p>Fix &amp; Foil uses Google Play Games Services, a service run by Google.</p>
 <ul>
   <li><strong>Sign-in.</strong> If you have a Play Games profile, Google Play Games may sign you in when the game starts.
-      Signing in is optional: the game works without it. Google handles the sign-in. The game does not read, store or
-      send your name, e-mail address, Play Games name, avatar or player ID.</li>
+      Signing in is optional: the game works without it. Google handles the sign-in. When you sign in, Google gives the
+      game your Play Games player ID and name; the game keeps them only in memory while it runs and never stores or sends
+      them. It never sees your e-mail address.</li>
   <li><strong>Cloud save.</strong> While you are signed in, the game uploads a copy of the shop described above to Google
       Play Games ("Saved Games"), where it is stored in your own Google account. When the game finds a copy there that is
       further along than the one on your phone (after a reinstall or on another device), it asks you before loading it.
